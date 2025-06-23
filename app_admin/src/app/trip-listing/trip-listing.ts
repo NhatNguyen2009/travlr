@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TripCardComponent  } from '../trip-card/trip-card';
+import { AuthenticationService } from '../services/authentication';
 
 import { TripDataService } from '../services/trip-data';
 import { Trip } from '../models/trip';
@@ -12,9 +13,11 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, TripCardComponent],
   templateUrl: './trip-listing.html',
-  styleUrl: './trip-listing.css',
+  styleUrls: ['./trip-listing.css'],
   providers: [TripDataService]
 })
+
+
 
 export class TripListingComponent implements OnInit {
   trips!: Trip[];
@@ -22,7 +25,9 @@ export class TripListingComponent implements OnInit {
 
   constructor(
     private tripDataService: TripDataService,
-    private router: Router
+    private router: Router,
+    private authenticationService: AuthenticationService
+
   ) {
     console.log('trip-listing constructor');
   }
@@ -47,6 +52,10 @@ export class TripListingComponent implements OnInit {
       }
     });
   }
+
+  public isLoggedIn(): boolean {
+  return this.authenticationService.isLoggedIn();
+}
 
   ngOnInit(): void {
     console.log('ngOnInit');
